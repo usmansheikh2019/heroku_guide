@@ -1,0 +1,65 @@
+1. login 
+
+	heroku login
+
+2. create a project with heroku using command line *(you must be inside the project folder)
+
+	heroku creare projectName
+
+3. add this in package.json file, inside "scripts"
+
+	"start": "node src/app.js"
+
+4. change fetch-api url from client-side app.js file from "localhost:XXXX/search?word=" to "/search?word="
+
+5. change the listening port 
+	
+	heroku will share port number through a environment variable, so we will use
+	
+	const port = process.env.PORT;
+	app.listen(port, () =>{
+	     console.log(`listening to port ${port}`);
+	});
+
+	To make it run locally we can add,
+
+	const port = process.env.PORT || 3000;
+	app.listen(port, () =>{
+	     console.log(`listening to port ${port}`);
+	});
+	
+6. git init (Inside your project directory)
+7. create a .gitignore file
+	
+	code .gitignore
+
+8. write inside .gitignore file
+
+	node_modules
+
+9. git add .
+
+10. git commit -m "your message" 
+
+11. set url
+
+	git remote add heroku https://git.heroku.com/my-dictionary-application.git 
+
+12. git push heroku master
+
+13. if any error occurr, try this
+
+	heroku logs --tail   --OR-- heroku logs --tail > error.txt    (for full results) 
+
+Now, instead of writing "nodemon src/app -e js,hbs" everytime, you can add a shortkey in scripts inside package.json file
+like this,
+
+	"scripts": {
+            "start": "node src/app.js"
+	    "dev": "nodemon src/app -e js,hbs"
+        },
+To execute "npm run dev"  you must have nodemon dependency inside your package.json file. But if we normally add nodemon dependency into our package.json file,  heroku or any other deployment environment will also install nodemon as it is listed inside our package.json file.
+
+But we want nodemon only in our development environment, to do that,
+
+	npm install nodemon --save-dev
